@@ -1,15 +1,16 @@
 'use client';
 
 import { useState, useCallback, useMemo } from 'react';
+import { getRoundedCube } from './presets/cube';
 import './style.css';
 
 const presets: Record<string, string> = {
-    diamante: `v 0 -100 0
-v -50 0 -50
-v 50 0 -50
-v 50 0 50
-v -50 0 50
-v 0 100 0
+    diamante: `v 0 -50 0
+v -30 0 -30
+v 30 0 -30
+v 30 0 30
+v -30 0 30
+v 0 50 0
 f 1 2 3
 f 1 3 4
 f 1 4 5
@@ -18,14 +19,14 @@ f 6 3 2
 f 6 4 3
 f 6 5 4
 f 6 2 5`,
-    cubo: `v -50 -50 -50
-v 50 -50 -50
-v 50 50 -50
-v -50 50 -50
-v -50 -50 50
-v 50 -50 50
-v 50 50 50
-v -50 50 50
+    cubo: `v -30 -30 -30
+v 30 -30 -30
+v 30 30 -30
+v -30 30 -30
+v -30 -30 30
+v 30 -30 30
+v 30 30 30
+v -30 30 30
 f 1 2 3
 f 1 3 4
 f 6 5 8
@@ -38,29 +39,29 @@ f 2 6 7
 f 2 7 3
 f 5 1 4
 f 5 4 8`,
-    piramide: `v 0 -80 0
-v -60 50 -60
-v 60 50 -60
-v 60 50 60
-v -60 50 60
+    piramide: `v 0 -40 0
+v -35 30 -35
+v 35 30 -35
+v 35 30 35
+v -35 30 35
 f 1 2 3
 f 1 3 4
 f 1 4 5
 f 1 5 2
 f 2 4 3
 f 2 5 4`,
-    icosaedro: `v 0 53 86
-v 0 53 -86
-v 0 -53 86
-v 0 -53 -86
-v 53 86 0
-v 53 -86 0
-v -53 86 0
-v -53 -86 0
-v 86 0 53
-v -86 0 53
-v 86 0 -53
-v -86 0 -53
+    icosaedro: `v 0 32 52
+v 0 32 -52
+v 0 -32 52
+v 0 -32 -52
+v 32 52 0
+v 32 -52 0
+v -32 52 0
+v -32 -52 0
+v 52 0 32
+v -52 0 32
+v 52 0 -32
+v -52 0 -32
 f 1 5 7
 f 1 7 10
 f 1 10 3
@@ -81,16 +82,16 @@ f 6 11 9
 f 7 12 10
 f 8 10 12
 f 6 4 11`,
-    casetta: `v -60 0 -40
-v 60 0 -40
-v 60 0 40
-v -60 0 40
-v -60 -60 -40
-v 60 -60 -40
-v 60 -60 40
-v -60 -60 40
-v 0 -100 -40
-v 0 -100 40
+    casetta: `v -30 5 -20
+v 30 5 -20
+v 30 5 20
+v -30 5 20
+v -30 -30 -20
+v 30 -30 -20
+v 30 -30 20
+v -30 -30 20
+v 0 -50 -20
+v 0 -50 20
 f 1 2 6
 f 1 6 5
 f 2 3 7
@@ -107,38 +108,7 @@ f 6 7 10
 f 6 10 9
 f 8 5 9
 f 8 9 10`,
-    sfera: `v 0 -100 0
-v 72.36 -44.72 -52.57
-v 72.36 -44.72 52.57
-v -27.64 -44.72 85.07
-v -89.44 -44.72 0
-v -27.64 -44.72 -85.07
-v 27.64 44.72 85.07
-v -72.36 44.72 52.57
-v -72.36 44.72 -52.57
-v 27.64 44.72 -85.07
-v 89.44 44.72 0
-v 0 100 0
-f 1 2 3
-f 1 3 4
-f 1 4 5
-f 1 5 6
-f 1 6 2
-f 12 7 11
-f 12 8 7
-f 12 9 8
-f 12 10 9
-f 12 11 10
-f 3 2 11
-f 2 10 11
-f 6 10 2
-f 10 6 9
-f 5 9 6
-f 9 5 8
-f 4 8 5
-f 8 4 7
-f 3 7 4
-f 7 3 11`,
+    'Rounded-Cube': getRoundedCube(),
 };
 
 interface ParsedModel {
@@ -220,7 +190,7 @@ export default function OBJRenderer() {
     const [objInput, setObjInput] = useState(presets.diamante);
     const [rotY, setRotY] = useState(30);
     const [rotX, setRotX] = useState(-20);
-    const [zoom, setZoom] = useState(1);
+    const [zoom, setZoom] = useState(0.7);
     const [currentTab, setCurrentTab] = useState<ExportTab>('completo');
     const [copied, setCopied] = useState(false);
 
@@ -344,7 +314,7 @@ ${generateSVGContent()}
                         <div className="obj-preset-grid">
                             {Object.keys(presets).map((name) => (
                                 <button key={name} onClick={() => setObjInput(presets[name])} className="obj-btn-preset">
-                                    {name === 'sfera' ? 'Sfera LP' : name}
+                                    {name}
                                 </button>
                             ))}
                         </div>
